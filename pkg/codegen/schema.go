@@ -623,7 +623,13 @@ func GenFieldsFromProperties(props []Property) []string {
 
 		fieldTags := make(map[string]string)
 
-		if (p.Required && !p.ReadOnly && !p.WriteOnly) || p.Nullable || !overrideOmitEmpty || (p.Required && p.ReadOnly && globalState.options.Compatibility.DisableRequiredReadOnlyAsPointer) {
+		if (p.Required && !p.ReadOnly && !p.WriteOnly) || (p.Required && p.ReadOnly && globalState.options.Compatibility.DisableRequiredReadOnlyAsPointer) {
+			fieldTags["json"] = p.JsonFieldName
+			fieldTags["binding"] = "required"
+			if p.NeedsFormTag {
+				fieldTags["form"] = p.JsonFieldName
+			}
+		} else if p.Nullable || !overrideOmitEmpty {
 			fieldTags["json"] = p.JsonFieldName
 			if p.NeedsFormTag {
 				fieldTags["form"] = p.JsonFieldName
