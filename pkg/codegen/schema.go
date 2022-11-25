@@ -548,6 +548,7 @@ func oapiSchemaToGoType(schema *openapi3.Schema, path []string, outSchema *Schem
 		switch f {
 		case "byte":
 			outSchema.GoType = "[]byte"
+			outSchema.SkipOptionalPointer = true
 		case "email":
 			outSchema.GoType = "openapi_types.Email"
 		case "date":
