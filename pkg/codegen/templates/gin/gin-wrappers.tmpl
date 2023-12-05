@@ -174,11 +174,11 @@ func (siw *ServerInterfaceWrapper) {{$opid}}(c *gin.Context) {
 
   for _, middleware := range siw.HandlerMiddlewares {
     middleware(c)
-    if (c.IsAborted) {
+    if (c.IsAborted()) {
         break
     }
    }
-   if (!c.IsAborted) {
+   if (!c.IsAborted()) {
       siw.Handler.{{.OperationId}}(c{{genParamNames .PathParams}}{{if .RequiresParamObject}}, params{{end}})
    }
 }
